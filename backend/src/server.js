@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { db, ensureSeed, seedDemoData } from './db.js';
 import { bus } from './bus.js';
 import { runPipeline, decide, POLICY } from './agents.js';
-import { aiEnabled, askJSON } from './llm.js';
+import { aiEnabled, askJSON, aiStatus } from './llm.js';
 import { buildSignals, analytics, answerQuestion, copilotContext } from './shared/insights.js';
 import path from 'path';
 import fs from 'fs';
@@ -31,7 +31,16 @@ const validate = (schema) => (req, res, next) => {
   req.body = r.data; next();
 };
 
-app.get('/api/health', (_, res) => res.json({ ok: true, ai: aiEnabled() ? 'gemini' : 'offline-simulation', policy: POLICY }));
+app.get('/api/health', async (req, res) => {
+  const out = { ok: true, ai: aiEnabled() ? 'gemini' : 'offline-simulation', policy: POLICY };
+  if (aiEnabled()) {
+    if (req.query.probe) {
+      try { const r = await askJSON({ system: 'Reply with JSON only.', prompt: 'Return {"pong":true}' }); out.ai_probe = r?.pong ? 'working' : 'odd reply'; } catch (e) { out.ai_probe = 'failed'; }
+    }
+    out.ai_model = aiStatus.model; out.ai_last_error = aiStatus.lastError;
+  }
+  res.json(out);
+});
 
 app.post('/api/auth/register', validate(z.object({ name: z.string().min(2), email: z.string().email(), password: z.string().min(6, 'Password needs 6+ characters') })), (req, res) => {
   const { name, email, password } = req.body;
