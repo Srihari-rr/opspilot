@@ -1,0 +1,20 @@
+{
+  "name": "OpsPilot - Autonomous Operations Crew",
+  "short_name": "OpsPilot",
+  "description": "A crew of AI agents that resolves supply-chain disruptions, with human approval for risky moves.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#e9e5df",
+  "theme_color": "#4a4844",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Insights", "url": "/insights" },
+    { "name": "Business Systems", "url": "/systems" }
+  ]
+}

@@ -1,0 +1,16 @@
+# One-service deploy: Render builds the React app and the Express server serves everything.
+services:
+  - type: web
+    name: opspilot
+    runtime: node
+    buildCommand: npm run build
+    startCommand: npm start
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_VERSION
+        value: 20

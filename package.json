@@ -1,0 +1,14 @@
+{
+  "name": "opspilot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OpsPilot - autonomous multi-agent crew for supply-chain disruptions",
+  "scripts": {
+    "setup": "npm install --prefix backend && npm install --prefix frontend",
+    "build": "npm install --prefix frontend && npm run build --prefix frontend && npm install --prefix backend",
+    "start": "npm start --prefix backend",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "build:demo": "npm run build:demo --prefix frontend"
+  }
+}
